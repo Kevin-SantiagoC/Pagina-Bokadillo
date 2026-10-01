@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bocadillos Cafeteria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cafe-oscuro: #2C1810;
+      --cafe-medio: #5C3D2E;
+      --cafe-calido: #8B5E3C;
+      --crema: #F5ECD7;
+      --crema-oscura: #E8D5B0;
+      --dorado: #C9A96E;
+      --dorado-claro: #E8C87A;
+      --blanco: #FDFAF5;
+      --gris-cafe: #9E8B7A;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--blanco);
+      color: var(--cafe-oscuro);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 4rem;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+      background: transparent;
+    }
+
+    nav.scrolled {
+      background: rgba(253, 250, 245, 0.97);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 2px 30px rgba(44, 24, 16, 0.1);
+      height: 68px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 95px;
+      width: auto;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    nav.scrolled .nav-logo img {
+      height: 65px;
+    }
+
+    .nav-logo:hover img {
+      transform: scale(1.05);
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .nav-logo-text .brand-top {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--cafe-oscuro);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo-text .brand-bottom {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--cafe-calido);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--cafe-oscuro);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--dorado);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--cafe-calido); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--cafe-oscuro);
+      color: var(--crema) !important;
+      padding: 0.65rem 1.5rem;
+      border-radius: 2px;
+      font-size: 0.8rem !important;
+      letter-spacing: 0.1em !important;
+      transition: background 0.3s ease, transform 0.2s !important;
+    }
+
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover {
+      background: var(--cafe-calido) !important;
+      color: var(--crema) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      background: var(--cafe-oscuro);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 5rem 5rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%);
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,169,110,0.15);
+      border: 1px solid rgba(201,169,110,0.3);
+      color: var(--dorado-claro);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.45rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      width: fit-content;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .hero-badge span { width: 5px; height: 5px; border-radius: 50%; background: var(--dorado); display: block; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-weight: 900;
+      color: var(--crema);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.8s ease 0.15s forwards;
+      opacity: 0;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--dorado-claro);
+      display: block;
+    }
+
+    .hero-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: rgba(245,236,215,0.7);
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 3rem;
+      animation: fadeInUp 0.8s ease 0.3s forwards;
+      opacity: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      animation: fadeInUp 0.8s ease 0.45s forwards;
+      opacity: 0;
+    }
+
+    .btn-primary {
+      background: var(--dorado);
+      color: var(--cafe-oscuro);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--dorado-claro);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201,169,110,0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--crema);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 2px;
+      border: 1px solid rgba(245,236,215,0.3);
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--dorado);
+      color: var(--dorado-claro);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(245,236,215,0.1);
+      animation: fadeInUp 0.8s ease 0.6s forwards;
+      opacity: 0;
+    }
+
+    .stat-item { text-align: left; }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dorado-claro);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,236,215,0.5);
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--crema);
+    }
+
+    .hero-right-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 70%, rgba(201,169,110,0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139,94,60,0.15) 0%, transparent 50%);
+    }
+
+    .hero-img-main {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      filter: sepia(15%) contrast(1.05);
+      animation: zoomIn 1s ease forwards;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(1.1); }
+      to { transform: scale(1); }
+    }
+
+    .hero-img-overlay {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(253,250,245,0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 2rem;
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(44,24,16,0.2);
+      width: 80%;
+      animation: fadeInUp 1s ease 0.5s forwards;
+      opacity: 0;
+    }
+
+    .overlay-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gris-cafe);
+      margin-bottom: 0.5rem;
+    }
+
+    .overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cafe-oscuro);
+      margin-bottom: 0.75rem;
+    }
+
+    .overlay-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      background: var(--crema-oscura);
+      color: var(--cafe-medio);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== MARQUEE ===== */
+    .marquee-wrap {
+      background: var(--dorado);
+      padding: 1rem 0;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      white-space: nowrap;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cafe-oscuro);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .marquee-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cafe-oscuro);
+      opacity: 0.4;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: 8rem 6rem; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cafe-calido);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 40px; height: 1px;
+      background: var(--dorado);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      color: var(--cafe-oscuro);
+      line-height: 1.1;
+    }
+
+    /* ===== NOSOTROS ===== */
+    .nosotros {
+      background: var(--blanco);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .nosotros-images {
+      position: relative;
+      height: 550px;
+    }
+
+    .img-main {
+      position: absolute;
+      top: 0; left: 0;
+      width: 75%;
+      height: 80%;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 30px 80px rgba(44,24,16,0.2);
+    }
+
+    .img-secondary {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 55%;
+      height: 55%;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 20px 50px rgba(44,24,16,0.15);
+      border: 6px solid var(--blanco);
+    }
+
+    .nosotros-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--dorado);
+      color: var(--cafe-oscuro);
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(201,169,110,0.4);
+    }
+
+    .nosotros-badge .year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .nosotros-badge .since {
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .nosotros-content .section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .nosotros-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--cafe-medio);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    .nosotros-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .feature-icon {
+      width: 36px; height: 36px;
+      background: var(--crema);
+      border: 1px solid var(--crema-oscura);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 16px; height: 16px;
+      stroke: var(--cafe-calido);
+    }
+
+    .feature-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--cafe-oscuro);
+    }
+
+    .feature-desc {
+      font-size: 0.75rem;
+      color: var(--gris-cafe);
+      margin-top: 0.2rem;
+    }
+
+    /* ===== MENU ===== */
+    .menu-section {
+      background: var(--crema);
+      text-align: center;
+    }
+
+    .menu-section .section-label { justify-content: center; }
+    .menu-section .section-label::before { display: none; }
+
+    .menu-filters {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 3rem 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.5rem;
+      border-radius: 2px;
+      border: 1.5px solid var(--crema-oscura);
+      background: transparent;
+      color: var(--gris-cafe);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--cafe-oscuro);
+      border-color: var(--cafe-oscuro);
+      color: var(--crema);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .menu-card {
+      background: var(--blanco);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(44,24,16,0.06);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(44,24,16,0.15);
+    }
+
+    .menu-card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      filter: sepia(10%);
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .menu-card-img {
+      transform: scale(1.05);
+    }
+
+    .menu-card-img-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .menu-tag {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: var(--cafe-oscuro);
+      color: var(--dorado-claro);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.65rem;
+      border-radius: 2px;
+    }
+
+    .menu-card-body {
+      padding: 1.5rem;
+    }
+
+    .menu-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--cafe-oscuro);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-card-desc {
+      font-size: 0.82rem;
+      color: var(--gris-cafe);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menu-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--cafe-calido);
+    }
+
+    .menu-price span {
+      font-size: 0.7rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      color: var(--gris-cafe);
+    }
+
+    /* ===== EXPERIENCE ===== */
+    .experience {
+      background: var(--cafe-oscuro);
+    }
+
+    .experience .section-label {
+      color: var(--dorado);
+    }
+
+    .experience .section-title {
+      color: var(--crema);
+    }
+
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .exp-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,169,110,0.15);
+      padding: 2.5rem 2rem;
+      border-radius: 4px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .exp-card:hover {
+      background: var(--dorado);
+      border-color: var(--dorado);
+      transform: translateY(-4px);
+    }
+
+    .exp-card:hover .exp-card-title,
+    .exp-card:hover .exp-card-desc,
+    .exp-card:hover .exp-icon svg {
+      color: var(--cafe-oscuro);
+      stroke: var(--cafe-oscuro);
+    }
+
+    .exp-icon {
+      width: 50px; height: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    .exp-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--dorado);
+      transition: stroke 0.4s ease;
+    }
+
+    .exp-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--crema);
+      margin-bottom: 0.75rem;
+      transition: color 0.4s ease;
+    }
+
+    .exp-card-desc {
+      font-size: 0.83rem;
+      color: rgba(245,236,215,0.5);
+      line-height: 1.7;
+      transition: color 0.4s ease;
+    }
+
+    /* ===== GALERIA ===== */
+    .gallery {
+      background: var(--blanco);
+      padding-bottom: 4rem;
+    }
+
+    .gallery-scroll {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding: 3rem 0 1rem;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+
+    .gallery-item {
+      flex-shrink: 0;
+      width: 320px;
+      height: 420px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(10%);
+      transition: transform 0.6s ease, filter 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: sepia(0%);
+    }
+
+    .gallery-item-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(44,24,16,0.9) 0%, transparent 100%);
+      padding: 2rem 1.5rem 1.2rem;
+      color: var(--crema);
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+
+    .gallery-item:hover .gallery-item-label {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ===== TESTIMONIOS ===== */
+    .testimonios {
+      background: var(--crema);
+    }
+
+    .testimonios .section-label { justify-content: center; }
+    .testimonios .section-label::before { display: none; }
+    .testimonios .section-title { text-align: center; margin-bottom: 4rem; }
+
+    .testimonios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .testimonio-card {
+      background: var(--blanco);
+      padding: 2.5rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(44,24,16,0.05);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .testimonio-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      line-height: 0.5;
+      color: var(--dorado-claro);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .testimonio-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--cafe-medio);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .testimonio-stars {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .star { color: var(--dorado); font-size: 0.85rem; }
+
+    .testimonio-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--crema-oscura);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cafe-calido);
+    }
+
+    .author-name {
+      font-weight: 500;
+      font-size: 0.88rem;
+      color: var(--cafe-oscuro);
+    }
+
+    .author-city {
+      font-size: 0.75rem;
+      color: var(--gris-cafe);
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== CONTACTO ===== */
+    .contacto {
+      background: var(--blanco);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .contacto-info .section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .contacto-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--cafe-medio);
+      line-height: 1.9;
+      margin-bottom: 3rem;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .info-icon {
+      width: 44px; height: 44px;
+      background: var(--crema);
+      border: 1px solid var(--crema-oscura);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-icon svg {
+      width: 18px; height: 18px;
+      stroke: var(--cafe-calido);
+    }
+
+    .info-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gris-cafe);
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--cafe-oscuro);
+      line-height: 1.5;
+    }
+
+    /* ===== FORM ===== */
+    .contacto-form {
+      background: var(--crema);
+      padding: 3rem;
+      border-radius: 4px;
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cafe-oscuro);
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cafe-medio);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--crema-oscura);
+      border-radius: 2px;
+      background: var(--blanco);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--cafe-oscuro);
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--dorado);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--cafe-oscuro);
+      color: var(--crema);
+      border: none;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+
+    .form-submit:hover {
+      background: var(--cafe-calido);
+      transform: translateY(-1px);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--cafe-oscuro);
+      padding: 5rem 6rem 3rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand img {
+      height: 70px;
+      width: auto;
+      margin-bottom: 1.25rem;
+      filter: brightness(0) invert(1) sepia(1) saturate(0.5) brightness(1.5);
+    }
+
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--crema);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-brand-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dorado);
+    }
+
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(245,236,215,0.5);
+      line-height: 1.7;
+      margin-top: 1rem;
+    }
+
+    .footer-col-title {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(245,236,215,0.55);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--crema);
+    }
+
+    .footer-hours {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .hour-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: rgba(245,236,215,0.55);
+    }
+
+    .hour-row .day { font-weight: 500; }
+    .hour-row .time { color: var(--dorado-claro); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(201,169,110,0.15);
+      padding-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(245,236,215,0.35);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .social-btn:hover {
+      border-color: var(--dorado);
+      background: rgba(201,169,110,0.1);
+    }
+
+    .social-btn svg {
+      width: 16px; height: 16px;
+      stroke: rgba(245,236,215,0.5);
+      transition: stroke 0.3s;
+    }
+
+    .social-btn:hover svg {
+      stroke: var(--dorado);
+    }
+
+    /* ===== HIDDEN MENU ITEMS ===== */
+    .menu-card[data-cat] { display: none; }
+    .menu-card[data-cat].visible { display: block; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      section { padding: 6rem 3rem; }
+      nav { padding: 0 2rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 8rem 2.5rem 4rem; }
+      .hero-right { height: 450px; }
+      .nosotros { grid-template-columns: 1fr; gap: 3rem; }
+      .nosotros-images { height: 380px; }
+      .exp-grid { grid-template-columns: repeat(2,1fr); }
+      .menu-grid { grid-template-columns: repeat(2,1fr); }
+      .testimonios-grid { grid-template-columns: 1fr 1fr; }
+      .contacto { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero-left { padding: 7rem 1.5rem 3rem; }
+      .hero-actions { flex-direction: column; }
+      .exp-grid, .menu-grid, .testimonios-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .contacto-form { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+     <img src="img/bocadillos-logo.png" alt="Bocadillos Cafeteria logo" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#reservar" class="nav-cta">Reservar</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span></span>
+         Cali Colombia &bull; Cafeteria Artesanal
+      </div>
+      <h1 class="hero-title">
+        Bokadillos<br/>
+        <em>Cafeteria</em>
+      </h1>
+      <p class="hero-desc">
+        Donde cada sorbo cuenta una historia. Cafe de origen colombiano,
+        bocadillos artesanales y el calor de un hogar que nunca olvidaras.
+      </p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-primary">Ver Menu</a>
+        <a href="#nosotros" class="btn-secondary">Conocenos</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Cafe Colombiano</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">+20</span>
+          <span class="stat-label">Opciones en Menu</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">★4.9</span>
+          <span class="stat-label">Calificacion</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <img
+        src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&q=80"
+        alt="Taza de cafe artesanal"
+        class="hero-img-main"
+      />
+      <div class="hero-img-overlay">
+        <div class="overlay-label">EL MAS VENDIDO</div>
+        <div class="overlay-title">Cappuccino Especial de la Casa</div>
+        <div class="overlay-tags">
+          <span class="tag">Cafe Huila</span>
+          <span class="tag">Leche de avena</span>
+          <span class="tag">Arte latte</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Huila</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Narino</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Antioquia</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe del Cauca</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Tolima</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Santander</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Boyaca</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Huila</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Narino</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Antioquia</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe del Cauca</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Tolima</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Santander</div>
+      <div class="marquee-item"><span class="marquee-dot"></span> Cafe de Boyaca</div>
+    </div>
+  </div>
+
+  <!-- NOSOTROS -->
+  <section class="nosotros" id="nosotros">
+    <div class="nosotros-images">
+      <img
+        src="img/InteriorCafeteria.jpeg"
+        alt="Interior cafeteria"
+        class="img-main"
+      />
+      <img
+        src="img/Mocachino.jpeg"
+        alt="Preparacion del cafe"
+        class="img-secondary"
+      />
+      <div class="nosotros-badge">
+        <span class="year"></span>
+        <span class="since"></span>
+      </div>
+    </div>
+    <div class="nosotros-content">
+      <div class="section-label">Nuestra Historia</div>
+      <h2 class="section-title">Mas que una cafeteria,<br/><em>un encuentro</em></h2>
+      <p class="nosotros-text">
+        Bokadillos Cafeteria nacio del sueño de crear un espacio donde el cafe
+        colombiano de alta calidad se fusiona con bocadillos artesanales preparados
+        con amor y tradicion.
+      </p>
+      <p class="nosotros-text">
+        Cada taza que servimos cuenta la historia de los caficultores colombianos,
+        de sus manos y su pasion por el mejor cafe del mundo.
+      </p>
+      <div class="nosotros-features">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <div class="feature-label">Cafe de Origen</div>
+            <div class="feature-desc">Directo del caficultor</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <div>
+            <div class="feature-label">Recetas Propias</div>
+            <div class="feature-desc">Bocadillos artesanales</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <div class="feature-label">Ambiente Acogedor</div>
+            <div class="feature-desc">Para cada momento</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="feature-label">Calidad Garantizada</div>
+            <div class="feature-desc">Siempre fresco y delicioso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <div class="section-label">Lo Mejor de Bocadillos</div>
+    <h2 class="section-title">Nuestro Menu</h2>
+    <div class="menu-filters">
+      <button class="filter-btn active" onclick="filterMenu('todos')">Todos</button>
+      <button class="filter-btn" onclick="filterMenu('cafe')">Cafes</button>
+      <button class="filter-btn" onclick="filterMenu('TE')">TÉ</button>
+      <button class="filter-btn" onclick="filterMenu('bebida')">Bebidas</button>
+      <button class="filter-btn" onclick="filterMenu('bocadillo')">Bocadillos</button>
+      <button class="filter-btn" onclick="filterMenu('comida')">Comidas</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+
+      <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Caramel Macchiato</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$12.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+            <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Mocachino</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$10.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+            <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Latte</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$9.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+            <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Cappuccino</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$9.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Cappuccino"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Espresso sencillo</div>
+          <!--<div class="menu-card-desc">Espresso doble con espuma de leche cremosa y arte latte personalizado.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$7.000 <span>COP</span></div>
+          </div>
+          <div class="menu-variant">Doble</div>
+          <div class="menu-price">$8.000 <span>COP</span></div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Latte"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Americano</div>
+          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$7.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+       <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Latte"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Mocca helado</div>
+          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$18.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+       <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Latte"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Affogato de la casa</div>
+          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$18.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+       <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Latte"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Caramel Macchiato frío</div>
+          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$17.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+       <div class="menu-card visible" data-cat="cafe">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Latte"/>
+          <span class="menu-tag">Cafe</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Americano</div>
+          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$7.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="menu-card visible" data-cat="TE">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">TE</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Matcha latte</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$18.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="TE">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">TE</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Té Matcha</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$16.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+       <div class="menu-card visible" data-cat="TE">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">TE</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Té chai</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$9.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+        <div class="menu-card visible" data-cat="TE">
+        <div class="menu-card-img-wrap">
+          <img src="" class="menu-card-img" alt="Espresso"/>
+          <span class="menu-tag">TE</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Té inglés (black - green)</div>
+          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
+          <div class="menu-card-footer">
+            <div class="menu-price">$8.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="bocadillo">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80" class="menu-card-img" alt="Muffin"/>
+          <span class="menu-tag">Bocadillo</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Muffin de Choco Chips</div>
+          <div class="menu-card-desc">Muffin artesanal esponjoso con chispas de chocolate belga, horneado al momento.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$5.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="bocadillo">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80" class="menu-card-img" alt="Croissant"/>
+          <span class="menu-tag">Bocadillo</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Croissant de Mantequilla</div>
+          <div class="menu-card-desc">Croissant hojaldrado artesanal con mantequilla francesa, crujiente y dorado.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$6.500 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="comida">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80" class="menu-card-img" alt="Tostada"/>
+          <span class="menu-tag">Comida</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Tostada con Aguacate</div>
+          <div class="menu-card-desc">Pan artesanal tostado con aguacate fresco, tomate cherry y aceite de oliva.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$12.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="bebida">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80" class="menu-card-img" alt="Limonada"/>
+          <span class="menu-tag">Bebida</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Limonada de Coco</div>
+          <div class="menu-card-desc">Limonada natural con leche de coco, hielos y menta fresca. Refrescante.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$9.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="bebida">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80" class="menu-card-img" alt="Smoothie"/>
+          <span class="menu-tag">Bebida</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Smoothie de Frutas</div>
+          <div class="menu-card-desc">Mezcla de frutos tropicales colombianos licuados con yogur natural.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$9.500 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card visible" data-cat="comida">
+        <div class="menu-card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" class="menu-card-img" alt="Sandwich"/>
+          <span class="menu-tag">Comida</span>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">Sandwich Club Bocadillos</div>
+          <div class="menu-card-desc">Pan artesanal, pollo a la plancha, lechuga fresca, tomate y mayo de la casa.</div>
+          <div class="menu-card-footer">
+            <div class="menu-price">$16.000 <span>COP</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section class="experience" id="experiencia">
+    <div class="section-label">Por Que Elegirnos</div>
+    <h2 class="section-title" style="color:var(--crema)">Una experiencia<br/><em style="color:var(--dorado-claro);font-style:italic">unica</em></h2>
+    <div class="exp-grid">
+      <div class="exp-card">
+        <div class="exp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+          </svg>
+        </div>
+        <div class="exp-card-title">Cafe de Especialidad</div>
+        <div class="exp-card-desc">Granos seleccionados de las mejores fincas cafeteras de Colombia, con trazabilidad completa.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="exp-card-title">Ambiente Acogedor</div>
+        <div class="exp-card-desc">Un espacio disenado para que te sientas en casa, ideal para trabajar, reunirte o simplemente descansar.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </div>
+        <div class="exp-card-title">Hecho con Amor</div>
+        <div class="exp-card-desc">Cada bocadillo y bebida es preparado con dedicacion y los mejores ingredientes frescos del dia.</div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="exp-card-title">Siempre Puntual</div>
+        <div class="exp-card-desc">Tu tiempo es valioso. Rapidos sin sacrificar calidad. Tu pedido listo cuando lo necesitas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section class="gallery" id="galeria">
+    <div class="section-label">Instantes Bocadillos</div>
+    <h2 class="section-title">Nuestra Galeria</h2>
+    <div class="gallery-scroll" id="galleryScroll">
+      <div class="gallery-item">
+        <img src="img/img3.PNG" alt="Barista"/>
+        <div class="gallery-item-label">Arte del Barista</div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/img9.jpeg" alt="Interior"/>
+        <div class="gallery-item-label">Nuestro Espacio</div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/img1.jpeg" alt="Granos"/>
+        <div class="gallery-item-label">Granos Seleccionados</div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/Mocachino.jpeg" alt="Mocachino"/>
+        <div class="gallery-item-label">Mocachino</div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/img4.jpeg" alt="Reposteria"/>
+        <div class="gallery-item-label">Reposteria Artesanal</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=700&q=80" alt="Ambiente"/>
+        <div class="gallery-item-label">Ambiente Cafeteria</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios" id="testimonios">
+    <div class="section-label">Clientes Felices</div>
+    <h2 class="section-title">Lo que dicen de nosotros</h2>
+    <div class="testimonios-grid">
+      <div class="testimonio-card">
+        <span class="quote-mark">"</span>
+        <div class="testimonio-text">El mejor cappuccino que he tomado en mi vida. El ambiente es perfecto para trabajar y el personal es increiblemente amable. Mi lugar favorito en la ciudad.</div>
+        <div class="testimonio-stars">
+          <span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span>
+        </div>
+        <div class="testimonio-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Andrea Mejia</div>
+            <div class="author-city">Medellin, Antioquia</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card">
+        <span class="quote-mark">"</span>
+        <div class="testimonio-text">Los muffins son una maravilla. Vine de visita y quede enamorado del lugar. El cafe es de primera calidad, se nota que es cafe colombiano de verdad.</div>
+        <div class="testimonio-stars">
+          <span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span>
+        </div>
+        <div class="testimonio-author">
+          <div class="author-avatar">C</div>
+          <div>
+            <div class="author-name">Carlos Rueda</div>
+            <div class="author-city">Bogota, Cundinamarca</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card">
+        <span class="quote-mark">"</span>
+        <div class="testimonio-text">Bocadillos Cafeteria tiene la combinacion perfecta: excelente cafe, deliciosos bocadillos y un ambiente acogedor. Los precios son muy justos para la calidad que ofrecen.</div>
+        <div class="testimonio-stars">
+          <span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span><span class="star">*</span>
+        </div>
+        <div class="testimonio-author">
+          <div class="author-avatar">V</div>
+          <div>
+            <div class="author-name">Valentina Torres</div>
+            <div class="author-city">Cali, Valle del Cauca</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="contacto-info">
+      <div class="section-label">Visitanos</div>
+      <h2 class="section-title">Ven a<br/>disfrutar</h2>
+      <p class="contacto-desc">
+        Te esperamos con el mejor cafe de Colombia y bocadillos artesanales
+        que haran de tu visita un momento memorable.
+      </p>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="info-label">Direccion</div>
+          <div class="info-value">Av. 9 Nte. #20-40, Santa Monica Residential<br/>Cali, Valle del Cauca, Colombia</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011 1.18 2 2 0 013 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="info-label">Telefono</div>
+          <div class="info-value">+57 317 126 5692</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="info-label">INSTRAGRAM</div>
+          <div class="info-value">@bokadillos_cafeteria</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div>
+          <div class="info-label">Horario de Atencion</div>
+          <div class="info-value">Todos los dias de: 7am - 9pm<br/></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contacto-form" id="reservar">
+      <div class="form-title">Haz tu Reserva</div>
+      <form onsubmit="handleForm(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-input" placeholder="Tu nombre" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefono</label>
+            <input type="tel" id="telefono" class="form-input" placeholder="+57 300 000 0000" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Correo Electronico</label>
+          <input type="email" id="correo" class="form-input" placeholder="tu@correo.com"/>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" id="fecha" class="form-input" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hora</label>
+            <input type="time" id="hora" class="form-input" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Numero de Personas</label>
+          <select id="personas" class="form-select">
+            <option>1 persona</option>
+            <option>2 personas</option>
+            <option>3 - 4 personas</option>
+            <option>5 - 6 personas</option>
+            <option>Mas de 6 personas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mensaje Adicional</label>
+          <textarea id="mensaje" class="form-textarea" placeholder="Alguna solicitud especial..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Confirmar Reserva</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="bocadillos-logo.jpeg" alt="Bokadillos Cafeteria"/>
+        <div class="footer-tagline">Donde cada sorbo cuenta una historia. Cafe colombiano de origen, bocadillos artesanales y mucho amor.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navegacion</div>
+        <ul class="footer-links">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#reservar">Reservar</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Menu Destacado</div>
+        <ul class="footer-links">
+          <li><a href="#menu">Espresso Clasico</a></li>
+          <li><a href="#menu">Cappuccino Especial</a></li>
+          <li><a href="#menu">Muffin de Choco Chips</a></li>
+          <li><a href="#menu">Croissant de Mantequilla</a></li>
+          <li><a href="#menu">Sandwich Club</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Horarios</div>
+        <div class="footer-hours">
+          <div class="hour-row"><span class="day">Lun - Vie</span><span class="time">7am - 9pm</span></div>
+          <div class="hour-row"><span class="day">Sabado</span><span class="time">7am - 9pm</span></div>
+          <div class="hour-row"><span class="day">Domingo</span><span class="time">7am - 9pm</span></div>
+          <div class="hour-row"><span class="day">Festivos</span><span class="time">7am - 9pm</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2024 Bokadillos Cafeteria. Todos los derechos reservados. Colombia.</div>
+      <div class="footer-social">
+        <div class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </div>
+        <!--<div class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+          </svg>
+        </div>
+        <div class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+            <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+          </svg>
+        </div>-->
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Menu Filter
+    function filterMenu(cat) {
+      const cards = document.querySelectorAll('.menu-card');
+      const btns = document.querySelectorAll('.filter-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      cards.forEach(card => {
+        if (cat === 'todos' || card.getAttribute('data-cat') === cat) {
+          card.classList.add('visible');
+        } else {
+          card.classList.remove('visible');
+        }
+      });
+    }
+
+    // Form submit -> abre WhatsApp con la reserva
+    function handleForm(e) {
+      e.preventDefault();
+
+      const nombre   = document.getElementById('nombre').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const correo   = document.getElementById('correo').value.trim();
+      const fecha    = document.getElementById('fecha').value;   // aaaa-mm-dd
+      const hora     = document.getElementById('hora').value;    // HH:MM
+      const personas = document.getElementById('personas').value;
+      const mensaje  = document.getElementById('mensaje').value.trim();
+
+      const [a, m, d] = fecha.split('-');
+      const fechaFormateada = `${d}/${m}/${a}`;
+
+      // Hora en formato 12h (am/pm)
+      const [hh, mm] = hora.split(':').map(Number);
+      const horaFormateada = `${((hh + 11) % 12) + 1}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'pm' : 'am'}`;
+
+      const texto =
+`*Nueva reserva - Bokadillos* ☕
+
+*Nombre:* ${nombre}
+*Teléfono:* ${telefono}
+*Correo:* ${correo || 'No indicado'}
+*Fecha:* ${fechaFormateada}
+*Hora:* ${horaFormateada}
+*Personas:* ${personas}
+*Mensaje:* ${mensaje || 'Sin mensaje adicional'}`;
+
+      const numero = '573171265692'; // +57 317 126 5692
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+      // Si el navegador bloquea la ventana nueva, abre en la misma pestaña
+      const win = window.open(url, '_blank');
+      if (!win) window.location.href = url;
+
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Abriendo WhatsApp...';
+      btn.style.background = 'var(--cafe-calido)';
+      setTimeout(() => {
+        btn.textContent = 'Confirmar Reserva';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
+    }
+
+    // Auto scroll gallery
+    const gallery = document.getElementById('galleryScroll');
+    let scrollDir = 1;
+    setInterval(() => {
+      gallery.scrollLeft += scrollDir * 1;
+      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) scrollDir = -1;
+      if (gallery.scrollLeft <= 0) scrollDir = 1;
+    }, 20);
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'fadeInUp 0.7s ease forwards';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.menu-card, .exp-card, .testimonio-card').forEach(el => {
+      el.style.opacity = '0';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
