@@ -1480,6 +1480,21 @@
       .cart-row-price { grid-column: 2; grid-row: 1; }
       .cart-step { grid-column: 1 / -1; }
     }
+
+    /* Boton menos + aviso de tortas por encargo */
+    .add-group { display: inline-flex; align-items: center; gap: .35rem; }
+    .minus-btn { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--dorado); background: var(--blanco); color: var(--cafe-medio); font-size: 1.2rem; line-height: 1;
+      cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .minus-btn.show { display: inline-flex; }
+    .minus-btn:active { transform: scale(.94); }
+    .encargo { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+      margin: 0 0 1.6rem; padding: 1.1rem 1.4rem; background: var(--crema); border-left: 4px solid var(--dorado); border-radius: 4px; }
+    .encargo h4 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--cafe-oscuro); margin-bottom: .25rem; }
+    .encargo p { font-size: .88rem; line-height: 1.55; color: var(--cafe-medio); max-width: 560px; }
+    .encargo a { background: var(--cafe-oscuro); color: var(--crema); text-decoration: none; font-size: .78rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase; padding: .8rem 1.2rem; border-radius: 2px; white-space: nowrap; }
+    @media (max-width: 640px) { .encargo { flex-direction: column; align-items: stretch; text-align: left; } .encargo a { text-align: center; } }
   </style>
 </head>
 <body>
@@ -1544,7 +1559,7 @@
       <div class="hero-img-overlay">
         <div class="overlay-label">LO MÁS VENDIDO</div>
       <ul class="overlay-list">
-      <li>Moca Helado</li>
+      <li>Mocca Helado</li>
       <li>Affogato de la casa</li>
       <li>Torta de queso y bocadillo</li>
       </ul>
@@ -2000,16 +2015,16 @@
     //        Ej: "Caramel macchiato" → img/productos/caramel-macchiato.jpg
     const CATEGORIAS = { cafe: "Cafés", cafefrio: "Café frío", te: "Tés", desayuno: "Desayunos", sandwich: "Sándwiches", postre: "Postres", smoothie: "Smoothies", bebida: "Bebidas" };
     const MENU = [
-      ["cafe", "Caramel macchiato", 12000, "", "", true],
+      ["cafe", "Caramel macchiato", 12000],
       ["cafe", "Mocachino", 10000, "", "img/Mocachino.jpeg"],
       ["cafe", "Latte", 9000],
-      ["cafe", "Cappuccino", 9000, "", "", true],
+      ["cafe", "Cappuccino", 9000],
       ["cafe", "Espresso", [["Sencillo", 7000], ["Doble", 8000]]],
       ["cafe", "Americano", 7000],
-      ["cafefrio", "Mocca helado", 18000],
-      ["cafefrio", "Affogato de la casa", 18000],
+      ["cafefrio", "Mocca helado", 18000, "", "", true],
+      ["cafefrio", "Affogato de la casa", 18000, "", "", true],
       ["cafefrio", "Caramel macchiato frío", 17000],
-      ["te", "Matcha latte", 18000, "", "", true],
+      ["te", "Matcha latte", 18000],
       ["te", "Té matcha", 16000],
       ["te", "Té chai", 9000],
       ["te", "Té inglés (black - green)", 8000],
@@ -2030,7 +2045,7 @@
       ["sandwich", "Pollo especial", 18000, "Pollo, jamón, queso, lechuga, tomate y mayonesa."],
       ["sandwich", "Jamón y queso", 12000, "Lechuga, tomate y mayonesa."],
       // --- Postres, tartas y galletas ---
-      ["postre", "Torta de queso y bocadillo", 17000],
+      ["postre", "Torta de queso y bocadillo", 17000, "", "", true],
       ["postre", "Tiramisú", 16000],
       ["postre", "Waffles de pandebono", 15000],
       ["postre", "New York roll", 15000],
@@ -2089,7 +2104,8 @@
     const cartCount = document.getElementById("cartCount"), cartTotal = document.getElementById("cartTotal");
     const cartToggle = document.getElementById("cartToggle");
     function addBtn(n, v, p, label) {
-      return `<button type="button" class="add-btn" data-n="${esc(n)}" data-v="${esc(v)}" data-p="${p}"><span class="add-label">${label}</span><span class="add-plus">+</span><span class="add-qty"></span></button>`;
+      const d = `data-n="${esc(n)}" data-v="${esc(v)}" data-p="${p}"`;
+      return `<span class="add-group"><button type="button" class="minus-btn" ${d} aria-label="Quitar uno">−</button><button type="button" class="add-btn" ${d}><span class="add-label">${label}</span><span class="add-plus">+</span><span class="add-qty"></span></button></span>`;
     }
     function cartAdd(n, v, p, d = 1) {
       const k = keyOf(n, v), it = cart.get(k) || { nombre: n, variante: v, precio: p, qty: 0 };
@@ -2102,6 +2118,7 @@
         const it = cart.get(keyOf(b.dataset.n, b.dataset.v)), q = it ? it.qty : 0;
         b.classList.toggle("has", q > 0);
         b.querySelector(".add-qty").textContent = q > 0 ? "× " + q : "";
+        b.previousElementSibling.classList.toggle("show", q > 0);
       });
       let c = 0, t = 0; cart.forEach(i => { c += i.qty; t += i.qty * i.precio; });
       cartBar.classList.toggle("show", c > 0);
@@ -2146,7 +2163,7 @@
       return `<div class="item" style="animation-delay:${i * 0.04}s">
         <div class="item-thumb-wrap"><img class="item-thumb" src="${foto || "img/productos/" + slug(nombre) + ".jpg"}" alt="${esc(nombre)}" loading="lazy" onerror="phFoto(this)"/></div>
         <div class="item-body">
-          <div class="item-line"><span class="item-name">${esc(nombre)}</span>${fav ? '<span class="item-fav">Favorito</span>' : ""}<span class="item-dots"></span><span class="item-price">${price}</span></div>
+          <div class="item-line"><span class="item-name">${esc(nombre)}</span>${fav ? '<span class="item-fav">Más vendido</span>' : ""}<span class="item-dots"></span><span class="item-price">${price}</span></div>
           ${desc ? `<div class="item-desc">${esc(desc)}</div>` : ""}
           <div class="item-variants">${botones}</div>
         </div></div>`;
@@ -2155,7 +2172,12 @@
     function showCat(cat) {
       const items = MENU.filter(m => m[0] === cat);
       const wa = `https://wa.me/${WA_NUM}?text=${encodeURIComponent("Hola Bokadillos ☕ Quiero hacer un pedido de " + CATEGORIAS[cat].toLowerCase() + ":")}`;
+      const encargoWa = `https://wa.me/${WA_NUM}?text=${encodeURIComponent("Hola Bokadillos ☕ Quiero encargar una torta.")}`;
+      const encargo = cat === "postre"
+        ? `<div class="encargo"><div><h4>Tortas por encargo 🎂</h4><p>Hacemos tortas por encargo. Escríbenos por WhatsApp para pedir la tuya y recógela en nuestro local (Av. 9 Nte. #20-40, Santa Mónica Residencial).</p></div><a href="${encargoWa}" target="_blank" rel="noopener">Encargar torta</a></div>`
+        : "";
       menuGrid.innerHTML = `<div class="carta-head"><h3>${CATEGORIAS[cat]}</h3><span>${items.length} opciones · precios en COP</span></div>`
+        + encargo
         + `<div class="carta-items">${items.map(itemHTML).join("")}</div>`
         + `<div class="carta-cta"><p>Toca <b>+</b> en lo que quieras y pídelo por WhatsApp.</p><a class="js-wa-cta" href="${wa}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>`;
       menuFilters.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b.dataset.f === cat));
@@ -2164,6 +2186,8 @@
     menuGrid.addEventListener("click", e => {
       const add = e.target.closest(".add-btn");
       if (add) { cartAdd(add.dataset.n, add.dataset.v, +add.dataset.p); return; }
+      const less = e.target.closest(".minus-btn");
+      if (less) { cartAdd(less.dataset.n, less.dataset.v, +less.dataset.p, -1); return; }
       const cta = e.target.closest(".js-wa-cta");
       if (cta && cart.size) { e.preventDefault(); sendOrder(); }
     });
