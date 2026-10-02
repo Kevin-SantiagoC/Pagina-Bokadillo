@@ -1394,6 +1394,31 @@
     .map-wrap { margin-top: 2rem; border-radius: 4px; overflow: hidden; border: 1px solid var(--crema-oscura); height: 260px; }
     .map-wrap iframe { width:100%; height:100%; border:0; display:block; }
     .btn-map { display:inline-block; margin-top:1rem; font-size:.8rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--cafe-calido); text-decoration:none; border-bottom:1px solid var(--dorado); padding-bottom:2px; }
+
+    /* ===== ENLACES INSTAGRAM + LIGHTBOX ===== */
+    a.info-item { text-decoration: none; color: inherit; }
+    a.info-item:hover .info-value { color: var(--cafe-calido); }
+    a.social-btn { display: flex; align-items: center; justify-content: center; text-decoration: none; }
+    .gallery-item { cursor: zoom-in; }
+    .lightbox { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center;
+      flex-direction: column; background: rgba(20,10,6,.94); padding: 3.5rem 1rem 2.5rem; }
+    .lightbox.open { display: flex; animation: lbFade .25s ease; }
+    @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+    .lightbox img { max-width: min(92vw, 1100px); max-height: 80vh; max-height: 80svh; width: auto; height: auto;
+      object-fit: contain; border-radius: 4px; box-shadow: 0 20px 60px rgba(0,0,0,.5); animation: lbZoom .3s ease; }
+    @keyframes lbZoom { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .lightbox-caption { margin-top: 1rem; font-family: 'DM Sans', sans-serif; font-size: .85rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--crema-oscura); text-align: center; }
+    .lightbox-btn { position: absolute; background: rgba(255,255,255,.1); border: 1px solid rgba(201,169,110,.4);
+      color: var(--crema); width: 46px; height: 46px; border-radius: 50%; font-size: 1.4rem; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .lightbox-btn:hover { background: rgba(201,169,110,.35); }
+    .lightbox-close { top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
+    .lightbox-prev { left: max(.75rem, env(safe-area-inset-left)); top: 50%; transform: translateY(-50%); }
+    .lightbox-next { right: max(.75rem, env(safe-area-inset-right)); top: 50%; transform: translateY(-50%); }
+    @media (max-width: 640px) { .lightbox-prev, .lightbox-next { top: auto; bottom: 1rem; transform: none; }
+      .lightbox-prev { left: calc(50% - 56px); } .lightbox-next { right: calc(50% - 56px); }
+      .lightbox { padding-bottom: 5rem; } }
   </style>
 </head>
 <body>
@@ -1709,7 +1734,7 @@
         </div>
         <div>
           <div class="info-label">Direccion</div>
-          <div class="info-value">Av. 9 Nte. #20-40, Santa Monica Residential<br/>Cali, Valle del Cauca, Colombia</div>
+          <div class="info-value">Av. 9 Nte. #20-40, Santa Monica Residencial<br/>Cali, Valle del Cauca, Colombia</div>
         </div>
       </div>
       <div class="info-item">
@@ -1723,17 +1748,17 @@
           <div class="info-value">+57 317 126 5692</div>
         </div>
       </div>
-      <div class="info-item">
+      <a class="info-item" href="https://www.instagram.com/bokadillos_cafeteria/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Bokadillos">
         <div class="info-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
             <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
           </svg>
         </div>
         <div>
-          <div class="info-label">INSTRAGRAM</div>
+          <div class="info-label">INSTAGRAM</div>
           <div class="info-value">@bokadillos_cafeteria</div>
         </div>
-      </div>
+      </a>
       <div class="info-item">
         <div class="info-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1839,11 +1864,11 @@
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2024 Bokadillos Cafeteria. Todos los derechos reservados. Colombia.</div>
       <div class="footer-social">
-        <div class="social-btn">
+        <a class="social-btn" href="https://www.instagram.com/bokadillos_cafeteria/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Bokadillos">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
             <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
           </svg>
-        </div>
+        </a>
         <!--<div class="social-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
             <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
@@ -1857,6 +1882,15 @@
       </div>
     </div>
   </footer>
+
+  <!-- Lightbox de la galeria -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+    <button class="lightbox-btn lightbox-close" id="lbClose" aria-label="Cerrar">&times;</button>
+    <button class="lightbox-btn lightbox-prev" id="lbPrev" aria-label="Foto anterior">&#8249;</button>
+    <img id="lbImg" src="" alt=""/>
+    <div class="lightbox-caption" id="lbCaption"></div>
+    <button class="lightbox-btn lightbox-next" id="lbNext" aria-label="Foto siguiente">&#8250;</button>
+  </div>
 
   <script>
     // Menu movil (hamburguesa)
@@ -2096,6 +2130,41 @@
       requestAnimationFrame(galStep);
     }
     requestAnimationFrame(galStep);
+
+    // Lightbox: al tocar una foto de la galeria se amplia
+    (function () {
+      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbCap = document.getElementById('lbCaption');
+      let cur = 0, startX = 0;
+      function show(i) {
+        cur = (i + items.length) % items.length;
+        const img = items[cur].querySelector('img');
+        const label = items[cur].querySelector('.gallery-item-label');
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt;
+        lbCap.textContent = label ? label.textContent : img.alt;
+      }
+      function open(i) { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; galPause(); }
+      function close() { lb.classList.remove('open'); document.body.style.overflow = ''; galResume(500); }
+      items.forEach((it, i) => it.addEventListener('click', () => open(i)));
+      document.getElementById('lbClose').addEventListener('click', close);
+      document.getElementById('lbPrev').addEventListener('click', () => show(cur - 1));
+      document.getElementById('lbNext').addEventListener('click', () => show(cur + 1));
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+      document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') show(cur - 1);
+        if (e.key === 'ArrowRight') show(cur + 1);
+      });
+      lb.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50) show(dx < 0 ? cur + 1 : cur - 1);
+      }, { passive: true });
+    })();
 
     // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
