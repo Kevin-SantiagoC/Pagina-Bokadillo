@@ -1775,7 +1775,9 @@
           </div>
           <div class="form-group">
             <label class="form-label">Hora</label>
-            <input type="time" id="hora" class="form-input" required/>
+            <select id="hora" class="form-select" required>
+              <option value="" disabled selected>Selecciona la hora</option>
+            </select>
           </div>
         </div>
         <div class="form-group">
@@ -1886,7 +1888,7 @@
     // [categoría, nombre, precio (o variantes), descripción opcional, foto opcional, favorito]
     // FOTOS: si no pones foto, la página busca sola img/productos/<nombre-del-producto>.jpg
     //        Ej: "Caramel macchiato" → img/productos/caramel-macchiato.jpg
-    const CATEGORIAS = { cafe: "Cafés", te: "Tés", bebida: "Bebidas", bocadillo: "Bocadillos", comida: "Comidas" };
+    const CATEGORIAS = { cafe: "Cafés", cafefrio: "Café frío", te: "Tés", desayuno: "Desayunos", sandwich: "Sándwiches", postre: "Postres", smoothie: "Smoothies", bebida: "Bebidas" };
     const MENU = [
       ["cafe", "Caramel macchiato", 12000, "", "", true],
       ["cafe", "Mocachino", 10000, "", "img/Mocachino.jpeg"],
@@ -1894,19 +1896,60 @@
       ["cafe", "Cappuccino", 9000, "", "", true],
       ["cafe", "Espresso", [["Sencillo", 7000], ["Doble", 8000]]],
       ["cafe", "Americano", 7000],
-      ["cafe", "Mocca helado", 18000],
-      ["cafe", "Affogato de la casa", 18000],
-      ["cafe", "Caramel macchiato frío", 17000],
+      ["cafefrio", "Mocca helado", 18000],
+      ["cafefrio", "Affogato de la casa", 18000],
+      ["cafefrio", "Caramel macchiato frío", 17000],
       ["te", "Matcha latte", 18000, "", "", true],
       ["te", "Té matcha", 16000],
       ["te", "Té chai", 9000],
       ["te", "Té inglés (black - green)", 8000],
-      ["bocadillo", "Muffin de choco chips", 5000, "Muffin artesanal esponjoso con chispas de chocolate belga, horneado al momento.", "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80", true],
-      ["bocadillo", "Croissant de mantequilla", 6500, "Croissant hojaldrado artesanal con mantequilla francesa, crujiente y dorado.", "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80"],
-      ["comida", "Tostada con aguacate", 12000, "Pan artesanal tostado con aguacate fresco, tomate cherry y aceite de oliva.", "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80"],
-      ["comida", "Sándwich club Bokadillos", 16000, "Pan artesanal, pollo a la plancha, lechuga fresca, tomate y mayonesa de la casa.", "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80", true],
-      ["bebida", "Limonada de coco", 9000, "Limonada natural con leche de coco, hielo y menta fresca. Refrescante.", "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80"],
-      ["bebida", "Smoothie de frutas", 9500, "Mezcla de frutas tropicales colombianas licuadas con yogur natural.", "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80"],
+      ["cafe", "Macchiato", 8000],
+      ["cafe", "Cold brew parchita", 10000, "Método de filtrado"],
+      ["cafe", "Café y cúrcuma", 10000, "Método de filtrado"],
+      // --- Café frío (completa los de arriba) ---
+      ["cafefrio", "Latte frío", 16000],
+      ["cafefrio", "Malteada de vainilla", 16000],
+      ["cafefrio", "Frappuccino clásico", 16000],
+      ["cafefrio", "Affogato clásico", 12000],
+      // --- Desayunos ---
+      ["desayuno", "Desayuno tradicional", 20000, "Calentado, trocitos de chicharrón, huevos al gusto, arepita, jugo y café."],
+      ["desayuno", "Desayuno fit", 18000, "Omelette de espinaca y queso, parfait de frutas y café."],
+      ["desayuno", "Desayuno clásico", 16000, "Omelette de jamón y queso, amasijos, jugo de naranja y café."],
+      // --- Sándwiches ---
+      ["sandwich", "Jamón serrano & burrata", 23000, "Rúgula, tomate y pesto."],
+      ["sandwich", "Pollo especial", 18000, "Pollo, jamón, queso, lechuga, tomate y mayonesa."],
+      ["sandwich", "Jamón y queso", 12000, "Lechuga, tomate y mayonesa."],
+      // --- Postres, tartas y galletas ---
+      ["postre", "Torta de queso y bocadillo", 17000],
+      ["postre", "Tiramisú", 16000],
+      ["postre", "Waffles de pandebono", 15000],
+      ["postre", "New York roll", 15000],
+      ["postre", "Cheesecake invertido", 15000],
+      ["postre", "Brownie con helado", 14000],
+      ["postre", "Pavlova", 14000],
+      ["postre", "Torta de manzana caramelizada", 14000],
+      ["postre", "Waffle clásico", 12000],
+      ["postre", "Rollo de canela", 11000],
+      ["postre", "Tarta de manzana", 15000, "Tarta"],
+      ["postre", "Tarta de frutos rojos", 15000, "Tarta"],
+      ["postre", "Tarta de limón", 15000, "Tarta"],
+      ["postre", "Tarta de lulo", 15000, "Tarta"],
+      ["postre", "Galleta red velvet", 8000, "Galleta"],
+      ["postre", "Galleta de avellanas", 8000, "Galleta"],
+      ["postre", "Galleta chips de chocolate", 8000, "Galleta"],
+      // --- Smoothies ---
+      ["smoothie", "Dragón Rojo", 14000, "Agraz, jengibre, remolacha, banana y fresa."],
+      ["smoothie", "Green Dreams", 14000, "Piña, manzana verde y kale."],
+      ["smoothie", "Pitahaya Plus", 14000, "Pitahaya, fresa y banana."],
+      ["smoothie", "Fresa & Manzanilla", 14000, "Infusión de manzanilla, fresas y semillas de chía."],
+      // --- Sodas saborizadas y otras bebidas ---
+      ["bebida", "Soda sandía", 14000, "Extracto de sandía, zumo de limón, sirope de frutos rojos y soda bretaña."],
+      ["bebida", "Soda pepinos", 14000, "Extracto de pepino, zumo de limón, sirope de hierba buena y soda bretaña."],
+      ["bebida", "Soda frutos rojos", 14000, "Sirope de frutos rojos, zumo de limón, sirope de canela y jengibre y soda bretaña."],
+      ["bebida", "Cervezas artesanales 3 Cordilleras", 12000, "330 ml · Rubia, rosada o negra."],
+      ["bebida", "Agua Hatsu", 7000],
+      ["bebida", "Soda bretaña", 7000],
+      ["bebida", "Coca-Cola", 7000],
       // --- Carta de licores ---
       ["bebida", "Jameson Irish Whiskey", [["Sencillo", 18000], ["Doble", 24000]], "Carta de licores · Shot"],
       ["bebida", "Whisky The Glenlivet", [["Sencillo", 17000], ["Doble", 23000]], "Carta de licores · Shot"],
@@ -1956,6 +1999,19 @@
       if (window.scrollY > top) window.scrollTo({ top, behavior: "smooth" });
     }));
     showCat(cats[0]);
+
+    // Horas de reserva: de 7:00 am a 9:00 pm, cada 30 minutos
+    (function () {
+      const sel = document.getElementById('hora');
+      const HORA_INICIO = 7, HORA_FIN = 21, PASO = 30; // cambia estos valores si cambia el horario
+      for (let min = HORA_INICIO * 60; min <= HORA_FIN * 60; min += PASO) {
+        const h = Math.floor(min / 60), m = min % 60;
+        const opt = document.createElement('option');
+        opt.value = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+        opt.textContent = (((h + 11) % 12) + 1) + ':' + String(m).padStart(2, '0') + ' ' + (h >= 12 ? 'pm' : 'am');
+        sel.appendChild(opt);
+      }
+    })();
 
     // Form submit -> abre WhatsApp con la reserva
     function handleForm(e) {
