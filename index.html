@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Bocadillos Cafeteria</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
@@ -780,7 +780,7 @@
       overflow-x: auto;
       padding: 3rem 0 1rem;
       scrollbar-width: none;
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
     }
 
     .gallery-scroll::-webkit-scrollbar { display: none; }
@@ -1214,6 +1214,137 @@
       .form-grid { grid-template-columns: 1fr; }
       .contacto-form { padding: 2rem 1.5rem; }
     }
+
+    /* ===== RESPONSIVE COMPLETO (todos los dispositivos) ===== */
+    html { -webkit-text-size-adjust: 100%; }
+    html, body { overflow-x: hidden; max-width: 100%; }
+    img, svg, video { max-width: 100%; }
+    .hero { min-height: 100vh; min-height: 100svh; }
+    .hero > *, .nosotros > *, .contacto > *, .menu-grid > *, .exp-grid > *,
+    .testimonios-grid > *, .footer-top > *, .form-grid > * { min-width: 0; }
+    .info-value, .footer-links a, .footer-copy { overflow-wrap: anywhere; }
+    .form-input { min-height: 46px; min-width: 0; -webkit-appearance: none; appearance: none; }
+    .form-select { -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%232C1810' stroke-width='1.5'/></svg>");
+      background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    /* tarjeta del hero: centrada sin depender de transform (la animacion lo pisaba) */
+    .hero-img-overlay { left: 0; right: 0; margin: 0 auto; transform: none; }
+    .gallery-scroll { scroll-behavior: auto !important; scroll-snap-type: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; touch-action: pan-x pan-y; }
+
+    /* Boton hamburguesa */
+    .nav-toggle { display: none; width: 44px; height: 44px; background: none; border: none; cursor: pointer;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--cafe-oscuro); transition: all .3s ease; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Pantallas muy grandes: contenido centrado con ancho maximo */
+    @media (min-width: 1500px) {
+      nav { padding-inline: max(4rem, calc((100% - 1500px) / 2)); }
+      section { padding-inline: max(6rem, calc((100% - 1400px) / 2)); }
+      footer { padding-inline: max(6rem, calc((100% - 1400px) / 2)); }
+      .hero-left { padding-left: max(6rem, calc((100vw - 1500px) / 2)); }
+    }
+
+    /* Laptops pequenos y tablets horizontales */
+    @media (max-width: 1280px) {
+      section { padding: 7rem 4rem; }
+      nav { padding: 0 2.5rem; }
+      .nav-links { gap: 1.75rem; }
+      .hero-left { padding: 8rem 3rem 4rem 4rem; }
+      .nosotros, .contacto { gap: 4rem; }
+      footer { padding: 4rem 4rem 2.5rem; }
+    }
+
+    /* Tablets */
+    @media (max-width: 1024px) {
+      section { padding: 5.5rem 2.5rem; }
+      .hero-right { height: 420px; }
+      .nosotros-images { max-width: 600px; width: 100%; margin: 0 auto; }
+      .contacto-form { padding: 2.5rem; }
+      footer { padding: 4rem 2.5rem 2.5rem; }
+    }
+
+    /* Telefonos grandes / tablets verticales: menu hamburguesa */
+    @media (max-width: 768px) {
+      nav, nav.scrolled { height: 64px; background: rgba(253,250,245,.97); backdrop-filter: blur(20px);
+        box-shadow: 0 2px 20px rgba(44,24,16,.1);
+        padding-left: max(1.25rem, env(safe-area-inset-left)); padding-right: max(1.25rem, env(safe-area-inset-right)); }
+      .nav-logo img, nav.scrolled .nav-logo img { height: 52px; }
+      .nav-toggle { display: flex; }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0;
+        background: rgba(253,250,245,.99); box-shadow: 0 20px 30px rgba(44,24,16,.12); padding: .5rem 0 1rem;
+        max-height: calc(100vh - 64px); max-height: calc(100svh - 64px); overflow-y: auto; }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; text-align: center; }
+      .nav-links a { display: block; padding: 1rem 1.5rem; font-size: .95rem; }
+      .nav-links a::after { display: none; }
+      .nav-links a.nav-cta { margin: .75rem 1.5rem 0; padding: .9rem 1.5rem; }
+      section { scroll-margin-top: 64px; padding: 4.5rem 1.75rem; }
+      .hero-left { padding: 6.5rem 1.75rem 3rem; }
+      .hero-right { height: 360px; }
+      .hero-img-overlay { width: 90%; bottom: 1.25rem; padding: 1rem 1.25rem; }
+      .hero-stats { flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: 2.5rem; padding-top: 2rem; }
+      .hero-desc { max-width: 100%; }
+      .nosotros-images { height: 340px; }
+      .nosotros-badge { width: 80px; height: 80px; }
+      .nosotros-badge .year { font-size: 1.2rem; }
+      .gallery-item { width: 260px; height: 350px; }
+      .testimonios-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 1.25rem; text-align: center; }
+      .footer-social { justify-content: center; }
+    }
+
+    /* Telefonos */
+    @media (max-width: 640px) {
+      section { padding: 4rem 1.25rem; }
+      .hero-left { padding: 6rem 1.25rem 2.5rem; }
+      .hero-actions .btn-primary, .hero-actions .btn-secondary { text-align: center; justify-content: center; width: 100%; }
+      .nosotros { gap: 2rem; }
+      .nosotros-features { grid-template-columns: 1fr; }
+      .menu-filters { gap: .5rem; }
+      .filter-btn { padding: .6rem 1rem; font-size: .75rem; }
+      .exp-card { padding: 2rem 1.5rem; }
+      .testimonio-card { padding: 1.75rem 1.5rem; }
+      .contacto { gap: 2rem; }
+      .contacto-form { padding: 1.75rem 1.25rem; }
+      .form-input, .form-select, .form-textarea { font-size: 16px; }
+      footer { padding: 3rem 1.25rem 2rem; }
+    }
+
+    /* Telefonos pequenos (iPhone SE, Galaxy A, 360px o menos) */
+    @media (max-width: 400px) {
+      section { padding: 3.5rem 1rem; }
+      .hero-left { padding: 5.5rem 1rem 2rem; }
+      .hero-title { font-size: clamp(2.3rem, 12vw, 3rem); }
+      .section-title { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+      .hero-right { height: 300px; }
+      .nosotros-images { height: 290px; }
+      .gallery-item { width: 220px; height: 300px; }
+      .stat-number { font-size: 1.6rem; }
+      .hero-stats { gap: 1.25rem 1.5rem; }
+      .contacto-form { padding: 1.5rem 1rem; }
+    }
+
+    /* Telefonos en horizontal (poca altura) */
+    @media (max-height: 520px) and (orientation: landscape) {
+      .hero { min-height: auto; }
+      .hero-left { padding-top: 5.5rem; }
+      .hero-right { height: 300px; }
+    }
+
+    /* Pantallas tactiles: sin hover, mostrar etiquetas de galeria */
+    @media (hover: none) {
+      .gallery-item-label { opacity: 1; transform: none; }
+      .menu-card:hover, .exp-card:hover, .testimonio-card:hover { transform: none; }
+    }
+
+    /* Accesibilidad: menos movimiento */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+      .hero-stats, .hero-img-overlay { opacity: 1 !important; }
+    }
   </style>
 </head>
 <body>
@@ -1223,7 +1354,10 @@
     <a href="#" class="nav-logo">
      <img src="img/bocadillos-logo.png" alt="Bocadillos Cafeteria logo" />
     </a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#menu">Menu</a></li>
       <li><a href="#galeria">Galeria</a></li>
@@ -1963,6 +2097,24 @@
   </footer>
 
   <script>
+    // Menu movil (hamburguesa)
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    function closeNav() {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    window.addEventListener('resize', () => { if (window.innerWidth > 768) closeNav(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+    document.addEventListener('click', e => { if (!navbar.contains(e.target)) closeNav(); });
+
     // Navbar scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -2031,14 +2183,42 @@
       }, 3000);
     }
 
-    // Auto scroll gallery
+    // Carrusel automatico de la galeria
     const gallery = document.getElementById('galleryScroll');
-    let scrollDir = 1;
-    setInterval(() => {
-      gallery.scrollLeft += scrollDir * 1;
-      if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth) scrollDir = -1;
-      if (gallery.scrollLeft <= 0) scrollDir = 1;
-    }, 20);
+    let galPos = 0, galDir = 1, galPaused = false, galTimer, galLast = 0;
+    const GAL_SPEED = 40; // pixeles por segundo
+
+    function galPause() { galPaused = true; clearTimeout(galTimer); }
+    function galResume(delay = 2000) {
+      clearTimeout(galTimer);
+      galTimer = setTimeout(() => { galPos = gallery.scrollLeft; galPaused = false; }, delay);
+    }
+
+    // Tactil: pausa mientras el usuario desliza
+    gallery.addEventListener('touchstart', galPause, { passive: true });
+    gallery.addEventListener('touchend', () => galResume(2500), { passive: true });
+    gallery.addEventListener('touchcancel', () => galResume(2500), { passive: true });
+    // Mouse: pausa al pasar por encima (solo en equipos con mouse)
+    if (window.matchMedia('(hover: hover)').matches) {
+      gallery.addEventListener('mouseenter', galPause);
+      gallery.addEventListener('mouseleave', () => galResume(500));
+    }
+    // Rueda / trackpad
+    gallery.addEventListener('wheel', () => { galPause(); galResume(2500); }, { passive: true });
+
+    function galStep(t) {
+      const dt = galLast ? Math.min((t - galLast) / 1000, 0.1) : 0;
+      galLast = t;
+      const max = gallery.scrollWidth - gallery.clientWidth;
+      if (!galPaused && max > 0) {
+        galPos += galDir * GAL_SPEED * dt;
+        if (galPos >= max) { galPos = max; galDir = -1; }
+        if (galPos <= 0)   { galPos = 0;   galDir = 1; }
+        gallery.scrollLeft = galPos;
+      }
+      requestAnimationFrame(galStep);
+    }
+    requestAnimationFrame(galStep);
 
     // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
