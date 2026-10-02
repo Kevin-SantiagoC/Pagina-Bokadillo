@@ -1419,6 +1419,67 @@
     @media (max-width: 640px) { .lightbox-prev, .lightbox-next { top: auto; bottom: 1rem; transform: none; }
       .lightbox-prev { left: calc(50% - 56px); } .lightbox-next { right: calc(50% - 56px); }
       .lightbox { padding-bottom: 5rem; } }
+
+    /* ===== LISTA LO MAS VENDIDO (puntos con margen correcto) ===== */
+    .overlay-list { list-style: none; margin: 0; padding: 0; }
+    .overlay-list li { position: relative; padding-left: 1.3rem; font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: clamp(1.05rem, 4.2vw, 1.4rem); line-height: 1.45; color: var(--cafe-oscuro); }
+    .overlay-list li::before { content: "•"; position: absolute; left: 0; top: 0; color: var(--dorado); font-size: 1.2em; }
+
+    /* ===== PEDIDO POR WHATSAPP ===== */
+    .add-btn { display: inline-flex; align-items: center; gap: .4rem; min-height: 36px; padding: .35rem .85rem;
+      font-family: 'DM Sans', sans-serif; font-size: .78rem; color: var(--cafe-medio); background: var(--blanco);
+      border: 1px solid var(--dorado); border-radius: 20px; cursor: pointer; transition: all .2s; -webkit-tap-highlight-color: transparent; }
+    .add-btn:hover { background: var(--crema); }
+    .add-btn:active { transform: scale(.96); }
+    .add-plus { font-weight: 700; font-size: 1rem; line-height: 1; color: var(--cafe-calido); }
+    .add-qty { font-weight: 700; color: var(--dorado-claro); }
+    .add-btn.has { background: var(--cafe-oscuro); border-color: var(--cafe-oscuro); color: var(--crema); }
+    .add-btn.has .add-plus { color: var(--dorado-claro); }
+    .item-variants { margin-top: .6rem; }
+
+    .cart-bar { position: fixed; left: 50%; bottom: 0; z-index: 900; width: min(760px, 100%);
+      transform: translate(-50%, 110%); transition: transform .35s ease; background: var(--cafe-oscuro); color: var(--crema);
+      border-radius: 14px 14px 0 0; box-shadow: 0 -10px 40px rgba(44,24,16,.35);
+      padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .cart-bar.show { transform: translate(-50%, 0); }
+    body.has-cart { padding-bottom: 90px; }
+    .cart-main { display: flex; align-items: center; gap: .75rem; padding: .75rem 1rem; }
+    .cart-summary { flex: 1; min-width: 0; display: flex; align-items: center; gap: .6rem; background: none; border: none;
+      color: inherit; cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif; padding: .25rem 0; }
+    .cart-count { font-size: .8rem; letter-spacing: .05em; color: var(--crema-oscura); }
+    .cart-total { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; color: var(--dorado-claro); }
+    .cart-caret { margin-left: auto; font-size: .8rem; color: var(--dorado); transition: transform .3s; }
+    .cart-bar.open .cart-caret { transform: rotate(180deg); }
+    .cart-send { background: #25D366; color: #063b1b; border: none; border-radius: 3px; cursor: pointer; white-space: nowrap;
+      font-family: 'DM Sans', sans-serif; font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+      padding: .85rem 1.2rem; min-height: 46px; }
+    .cart-panel { display: none; padding: 1rem 1rem 0; border-bottom: 1px solid rgba(201,169,110,.25); max-height: 55vh; max-height: 55svh; overflow-y: auto; }
+    .cart-bar.open .cart-panel { display: block; }
+    .cart-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+    .cart-panel-head strong { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .cart-panel-head button { background: none; border: none; color: var(--dorado); font-size: .78rem; text-decoration: underline; cursor: pointer; }
+    .cart-row { display: grid; grid-template-columns: 1fr auto auto; gap: .75rem; align-items: center; padding: .6rem 0;
+      border-bottom: 1px dotted rgba(201,169,110,.3); }
+    .cart-row-name { font-size: .92rem; min-width: 0; overflow-wrap: anywhere; }
+    .cart-row-name small { display: block; font-size: .75rem; color: var(--crema-oscura); }
+    .cart-row-price { font-size: .88rem; color: var(--dorado-claro); min-width: 68px; text-align: right; }
+    .cart-step { display: inline-flex; align-items: center; gap: .5rem; }
+    .cart-step button { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--dorado); background: none;
+      color: var(--crema); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+    .cart-step span { min-width: 1.2rem; text-align: center; font-weight: 600; }
+    .cart-panel input { width: 100%; margin: .6rem 0 0; padding: .7rem .9rem; font-family: 'DM Sans', sans-serif; font-size: 16px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(201,169,110,.35); border-radius: 3px; color: var(--crema); }
+    .cart-panel input::placeholder { color: var(--crema-oscura); opacity: .7; }
+    .cart-panel input:last-child { margin-bottom: 1rem; }
+    @media (max-width: 480px) {
+      .cart-main { gap: .5rem; padding: .65rem .75rem; }
+      .cart-count { display: none; }
+      .cart-send { padding: .8rem .9rem; font-size: .74rem; }
+      .cart-row { grid-template-columns: 1fr auto; }
+      .cart-row-price { grid-column: 2; grid-row: 1; }
+      .cart-step { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
@@ -1464,7 +1525,7 @@
           <span class="stat-label">Cafe Colombiano</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">+20</span>
+          <span class="stat-number">+60</span>
           <span class="stat-label">Opciones en Menu</span>
         </div>
         <div class="stat-item">
@@ -1481,7 +1542,7 @@
         class="hero-img-main"
       />
       <div class="hero-img-overlay">
-        <div class="overlay-label">Lo MAS VENDIDO</div>
+        <div class="overlay-label">LO MÁS VENDIDO</div>
       <ul class="overlay-list">
       <li>Moca Helado</li>
       <li>Affogato de la casa</li>
@@ -1882,6 +1943,22 @@
     </div>
   </footer>
 
+  <!-- Carrito de pedido -->
+  <div class="cart-bar" id="cartBar" role="region" aria-label="Tu pedido">
+    <div class="cart-panel" id="cartPanel">
+      <div class="cart-panel-head"><strong>Tu pedido</strong><button type="button" id="cartClear">Vaciar</button></div>
+      <div id="cartList"></div>
+      <input type="text" id="cartName" placeholder="Tu nombre (opcional)" autocomplete="name"/>
+      <input type="text" id="cartNote" placeholder="Nota: sin azúcar, mesa 4... (opcional)"/>
+    </div>
+    <div class="cart-main">
+      <button type="button" class="cart-summary" id="cartToggle" aria-expanded="false" aria-label="Ver mi pedido">
+        <span class="cart-count" id="cartCount"></span><span class="cart-total" id="cartTotal"></span><span class="cart-caret">▲</span>
+      </button>
+      <button type="button" class="cart-send" id="cartSend">Pedir por WhatsApp</button>
+    </div>
+  </div>
+
   <!-- Lightbox de la galeria -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
     <button class="lightbox-btn lightbox-close" id="lbClose" aria-label="Cerrar">&times;</button>
@@ -2005,15 +2082,73 @@
     const menuFilters = document.getElementById("menuFilters");
     const menuGrid = document.getElementById("menuGrid");
     function phFoto(img) { const d = document.createElement("div"); d.className = "item-thumb item-ph"; d.innerHTML = CUP; img.replaceWith(d); }
+    // ----- Carrito -----
+    const cart = new Map(); // clave -> {nombre, variante, precio, qty}
+    const keyOf = (n, v) => n + (v ? " · " + v : "");
+    const cartBar = document.getElementById("cartBar"), cartList = document.getElementById("cartList");
+    const cartCount = document.getElementById("cartCount"), cartTotal = document.getElementById("cartTotal");
+    const cartToggle = document.getElementById("cartToggle");
+    function addBtn(n, v, p, label) {
+      return `<button type="button" class="add-btn" data-n="${esc(n)}" data-v="${esc(v)}" data-p="${p}"><span class="add-label">${label}</span><span class="add-plus">+</span><span class="add-qty"></span></button>`;
+    }
+    function cartAdd(n, v, p, d = 1) {
+      const k = keyOf(n, v), it = cart.get(k) || { nombre: n, variante: v, precio: p, qty: 0 };
+      it.qty += d;
+      if (it.qty <= 0) cart.delete(k); else cart.set(k, it);
+      cartUpdate();
+    }
+    function cartUpdate() {
+      document.querySelectorAll(".add-btn").forEach(b => {
+        const it = cart.get(keyOf(b.dataset.n, b.dataset.v)), q = it ? it.qty : 0;
+        b.classList.toggle("has", q > 0);
+        b.querySelector(".add-qty").textContent = q > 0 ? "× " + q : "";
+      });
+      let c = 0, t = 0; cart.forEach(i => { c += i.qty; t += i.qty * i.precio; });
+      cartBar.classList.toggle("show", c > 0);
+      document.body.classList.toggle("has-cart", c > 0);
+      cartCount.textContent = c + (c === 1 ? " producto" : " productos");
+      cartTotal.textContent = fmt(t);
+      cartList.innerHTML = [...cart.entries()].map(([k, i]) => `<div class="cart-row">
+        <div class="cart-row-name">${esc(i.nombre)}${i.variante ? `<small>${esc(i.variante)}</small>` : ""}</div>
+        <div class="cart-row-price">${fmt(i.qty * i.precio)}</div>
+        <div class="cart-step"><button type="button" data-k="${esc(k)}" data-d="-1" aria-label="Quitar uno">−</button><span>${i.qty}</span><button type="button" data-k="${esc(k)}" data-d="1" aria-label="Agregar uno">+</button></div></div>`).join("");
+      if (c === 0) { cartBar.classList.remove("open"); cartToggle.setAttribute("aria-expanded", "false"); }
+    }
+    function sendOrder() {
+      if (!cart.size) return;
+      let t = 0; cart.forEach(i => t += i.qty * i.precio);
+      const nombre = document.getElementById("cartName").value.trim(), nota = document.getElementById("cartNote").value.trim();
+      let msg = "*Nuevo pedido - Bokadillos* ☕\n\n";
+      if (nombre) msg += "*Nombre:* " + nombre + "\n\n";
+      msg += [...cart.values()].map(i => `• ${i.qty} x ${i.nombre}${i.variante ? " (" + i.variante + ")" : ""} - ${fmt(i.qty * i.precio)}`).join("\n");
+      msg += "\n\n*Total: " + fmt(t) + "*";
+      if (nota) msg += "\n\n*Nota:* " + nota;
+      const url = `https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`;
+      if (!window.open(url, "_blank")) window.location.href = url;
+    }
+    cartToggle.addEventListener("click", () => {
+      const open = cartBar.classList.toggle("open");
+      cartToggle.setAttribute("aria-expanded", open);
+    });
+    document.getElementById("cartSend").addEventListener("click", sendOrder);
+    document.getElementById("cartClear").addEventListener("click", () => { cart.clear(); cartUpdate(); });
+    cartList.addEventListener("click", e => {
+      const b = e.target.closest("button[data-k]"); if (!b) return;
+      const it = cart.get(b.dataset.k); if (it) cartAdd(it.nombre, it.variante, it.precio, +b.dataset.d);
+    });
+
     function itemHTML([cat, nombre, precio, desc = "", foto = "", fav = false], i) {
       const multi = Array.isArray(precio);
       const price = multi ? "desde " + fmt(Math.min(...precio.map(p => p[1]))) : fmt(precio);
+      const botones = multi
+        ? precio.map(([v, p]) => addBtn(nombre, v, p, `${esc(v)} · ${fmt(p)}`)).join("")
+        : addBtn(nombre, "", precio, "Agregar");
       return `<div class="item" style="animation-delay:${i * 0.04}s">
         <div class="item-thumb-wrap"><img class="item-thumb" src="${foto || "img/productos/" + slug(nombre) + ".jpg"}" alt="${esc(nombre)}" loading="lazy" onerror="phFoto(this)"/></div>
         <div class="item-body">
           <div class="item-line"><span class="item-name">${esc(nombre)}</span>${fav ? '<span class="item-fav">Favorito</span>' : ""}<span class="item-dots"></span><span class="item-price">${price}</span></div>
           ${desc ? `<div class="item-desc">${esc(desc)}</div>` : ""}
-          ${multi ? `<div class="item-variants">${precio.map(([v, p]) => `<span>${esc(v)} · ${fmt(p)}</span>`).join("")}</div>` : ""}
+          <div class="item-variants">${botones}</div>
         </div></div>`;
     }
     const cats = Object.keys(CATEGORIAS).filter(c => MENU.some(m => m[0] === c));
@@ -2022,9 +2157,16 @@
       const wa = `https://wa.me/${WA_NUM}?text=${encodeURIComponent("Hola Bokadillos ☕ Quiero hacer un pedido de " + CATEGORIAS[cat].toLowerCase() + ":")}`;
       menuGrid.innerHTML = `<div class="carta-head"><h3>${CATEGORIAS[cat]}</h3><span>${items.length} opciones · precios en COP</span></div>`
         + `<div class="carta-items">${items.map(itemHTML).join("")}</div>`
-        + `<div class="carta-cta"><p>¿Se te antojó algo? Pídelo o pregúntanos por WhatsApp.</p><a href="${wa}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>`;
+        + `<div class="carta-cta"><p>Toca <b>+</b> en lo que quieras y pídelo por WhatsApp.</p><a class="js-wa-cta" href="${wa}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>`;
       menuFilters.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b.dataset.f === cat));
+      cartUpdate();
     }
+    menuGrid.addEventListener("click", e => {
+      const add = e.target.closest(".add-btn");
+      if (add) { cartAdd(add.dataset.n, add.dataset.v, +add.dataset.p); return; }
+      const cta = e.target.closest(".js-wa-cta");
+      if (cta && cart.size) { e.preventDefault(); sendOrder(); }
+    });
     menuFilters.innerHTML = cats.map(c => `<button class="filter-btn" type="button" data-f="${c}">${CATEGORIAS[c]}<span class="n">${MENU.filter(m => m[0] === c).length}</span></button>`).join("");
     menuFilters.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", () => {
       showCat(btn.dataset.f);
