@@ -1345,6 +1345,55 @@
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
       .hero-stats, .hero-img-overlay { opacity: 1 !important; }
     }
+
+    /* ===== CARTA (menú compacto por categorías) ===== */
+    .menu-section { text-align:left; }
+    .menu-section .section-label, .menu-section .section-title { display:flex; justify-content:center; text-align:center; }
+    .menu-filters { position:sticky; top:68px; z-index:20; background:var(--crema); margin:2.5rem -1rem 1.5rem; padding:.75rem 1rem;
+      display:flex; justify-content:center; gap:.5rem; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+    .menu-filters::-webkit-scrollbar { display:none; }
+    .filter-btn { flex:0 0 auto; border-radius:999px; }
+    .filter-btn .n { opacity:.6; margin-left:.35rem; font-size:.72rem; }
+    .carta { max-width:980px; margin:0 auto; background:var(--blanco); border-radius:6px; box-shadow:0 10px 40px rgba(44,24,16,.08);
+      padding:2.5rem 3rem; display:grid; grid-template-columns:1fr 1fr; column-gap:3.5rem; }
+    .carta > * { min-width:0; }
+    .carta-head { grid-column:1/-1; display:flex; align-items:baseline; justify-content:space-between; gap:1rem; border-bottom:1px solid var(--crema-oscura); padding-bottom:1rem; margin-bottom:.5rem; }
+    .carta-head h3 { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--cafe-oscuro); }
+    .carta-head span { font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gris-cafe); }
+    .carta { display:block !important; }
+    .carta-items { columns:2; column-gap:3.5rem; }
+    .carta-items .item { break-inside:avoid; }
+    .item { display:flex; gap:1rem; align-items:flex-start; padding:1.1rem 0; border-bottom:1px dashed var(--crema-oscura); animation:fadeInUp .45s ease both; }
+    .item-thumb { width:64px; height:64px; border-radius:50%; object-fit:cover; flex:none; box-shadow:0 4px 12px rgba(44,24,16,.15); }
+    .item-body { flex:1; min-width:0; }
+    .item-thumb-wrap { flex:none; }
+    .item-ph { display:flex; align-items:center; justify-content:center; background:var(--crema); border:1.5px dashed var(--crema-oscura); box-shadow:none; }
+    .item-ph svg { width:28px; height:28px; stroke:var(--dorado); }
+    .item { align-items:center; }
+    .item-line { display:flex; align-items:baseline; gap:.5rem; }
+    .item-name { font-family:'Playfair Display',serif; font-size:1.08rem; font-weight:700; color:var(--cafe-oscuro); }
+    .item-fav { font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; background:var(--cafe-oscuro); color:var(--dorado-claro); padding:.2rem .5rem; border-radius:2px; white-space:nowrap; align-self:center; }
+    .item-dots { flex:1; border-bottom:2px dotted var(--crema-oscura); transform:translateY(-4px); min-width:1rem; }
+    .item-price { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--cafe-calido); white-space:nowrap; }
+    .item-desc { font-size:.82rem; color:var(--gris-cafe); line-height:1.55; margin-top:.3rem; }
+    .item-variants { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.45rem; }
+    .item-variants span { font-size:.78rem; background:var(--crema); color:var(--cafe-medio); padding:.25rem .65rem; border-radius:20px; }
+    .carta-cta { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:1.8rem;
+      background:var(--crema); border-radius:4px; padding:1.1rem 1.4rem; }
+    .carta-cta p { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--cafe-medio); }
+    .carta-cta a { background:#25D366; color:#063b1b; text-decoration:none; font-size:.8rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; padding:.8rem 1.3rem; border-radius:2px; white-space:nowrap; }
+    @media (max-width: 768px) {
+      .menu-filters { justify-content:flex-start; top:64px; margin:2rem -1.5rem 1rem; padding:.75rem 1.5rem; }
+      .carta { grid-template-columns:1fr; padding:1.5rem 1.25rem; }
+      .carta-items { columns:1; }
+      .carta-head h3 { font-size:1.5rem; }
+      .item-thumb { width:54px; height:54px; }
+      .carta-cta { flex-direction:column; align-items:stretch; text-align:center; }
+    }
+    /* ===== MAPA ===== */
+    .map-wrap { margin-top: 2rem; border-radius: 4px; overflow: hidden; border: 1px solid var(--crema-oscura); height: 260px; }
+    .map-wrap iframe { width:100%; height:100%; border:0; display:block; }
+    .btn-map { display:inline-block; margin-top:1rem; font-size:.8rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--cafe-calido); text-decoration:none; border-bottom:1px solid var(--dorado); padding-bottom:2px; }
   </style>
 </head>
 <body>
@@ -1513,301 +1562,8 @@
   <section class="menu-section" id="menu">
     <div class="section-label">Lo Mejor de Bocadillos</div>
     <h2 class="section-title">Nuestro Menu</h2>
-    <div class="menu-filters">
-      <button class="filter-btn active" onclick="filterMenu('todos')">Todos</button>
-      <button class="filter-btn" onclick="filterMenu('cafe')">Cafes</button>
-      <button class="filter-btn" onclick="filterMenu('TE')">TÉ</button>
-      <button class="filter-btn" onclick="filterMenu('bebida')">Bebidas</button>
-      <button class="filter-btn" onclick="filterMenu('bocadillo')">Bocadillos</button>
-      <button class="filter-btn" onclick="filterMenu('comida')">Comidas</button>
-    </div>
-    <div class="menu-grid" id="menuGrid">
-
-      <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Caramel Macchiato</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$12.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-            <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Mocachino</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$10.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-            <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Latte</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$9.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-            <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Cappuccino</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$9.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Cappuccino"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Espresso sencillo</div>
-          <!--<div class="menu-card-desc">Espresso doble con espuma de leche cremosa y arte latte personalizado.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$7.000 <span>COP</span></div>
-          </div>
-          <div class="menu-variant">Doble</div>
-          <div class="menu-price">$8.000 <span>COP</span></div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Latte"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Americano</div>
-          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$7.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-       <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Latte"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Mocca helado</div>
-          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$18.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-       <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Latte"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Affogato de la casa</div>
-          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$18.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-       <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Latte"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Caramel Macchiato frío</div>
-          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$17.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-       <div class="menu-card visible" data-cat="cafe">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Latte"/>
-          <span class="menu-tag">Cafe</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Americano</div>
-          <!--<div class="menu-card-desc">Cafe suave con leche vaporizada y toque de vainilla natural artesanal.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$7.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="menu-card visible" data-cat="TE">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">TE</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Matcha latte</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$18.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="TE">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">TE</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Té Matcha</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$16.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-       <div class="menu-card visible" data-cat="TE">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">TE</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Té chai</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$9.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-        <div class="menu-card visible" data-cat="TE">
-        <div class="menu-card-img-wrap">
-          <img src="" class="menu-card-img" alt="Espresso"/>
-          <span class="menu-tag">TE</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Té inglés (black - green)</div>
-          <!--<div class="menu-card-desc">Cafe 100% colombiano de tueste medio. Intenso, suave y con cuerpo.</div>-->
-          <div class="menu-card-footer">
-            <div class="menu-price">$8.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="bocadillo">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80" class="menu-card-img" alt="Muffin"/>
-          <span class="menu-tag">Bocadillo</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Muffin de Choco Chips</div>
-          <div class="menu-card-desc">Muffin artesanal esponjoso con chispas de chocolate belga, horneado al momento.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$5.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="bocadillo">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80" class="menu-card-img" alt="Croissant"/>
-          <span class="menu-tag">Bocadillo</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Croissant de Mantequilla</div>
-          <div class="menu-card-desc">Croissant hojaldrado artesanal con mantequilla francesa, crujiente y dorado.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$6.500 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="comida">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80" class="menu-card-img" alt="Tostada"/>
-          <span class="menu-tag">Comida</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Tostada con Aguacate</div>
-          <div class="menu-card-desc">Pan artesanal tostado con aguacate fresco, tomate cherry y aceite de oliva.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$12.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="bebida">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80" class="menu-card-img" alt="Limonada"/>
-          <span class="menu-tag">Bebida</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Limonada de Coco</div>
-          <div class="menu-card-desc">Limonada natural con leche de coco, hielos y menta fresca. Refrescante.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$9.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="bebida">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80" class="menu-card-img" alt="Smoothie"/>
-          <span class="menu-tag">Bebida</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Smoothie de Frutas</div>
-          <div class="menu-card-desc">Mezcla de frutos tropicales colombianos licuados con yogur natural.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$9.500 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-card visible" data-cat="comida">
-        <div class="menu-card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" class="menu-card-img" alt="Sandwich"/>
-          <span class="menu-tag">Comida</span>
-        </div>
-        <div class="menu-card-body">
-          <div class="menu-card-title">Sandwich Club Bocadillos</div>
-          <div class="menu-card-desc">Pan artesanal, pollo a la plancha, lechuga fresca, tomate y mayo de la casa.</div>
-          <div class="menu-card-footer">
-            <div class="menu-price">$16.000 <span>COP</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <div class="menu-filters" id="menuFilters"></div>
+    <div class="carta" id="menuGrid"></div>
   </section>
 
   <!-- EXPERIENCIA -->
@@ -1989,6 +1745,10 @@
           <div class="info-value">Todos los dias de: 7am - 9pm<br/></div>
         </div>
       </div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps?q=Av.+9+Nte.+%2320-40,+Cali,+Valle+del+Cauca&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de Bokadillos Cafetería"></iframe>
+      </div>
+      <a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=Av.+9+Nte.+%2320-40,+Cali,+Valle+del+Cauca" target="_blank" rel="noopener">Cómo llegar →</a>
     </div>
 
     <div class="contacto-form" id="reservar">
@@ -2121,20 +1881,68 @@
       navbar.classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // Menu Filter
-    function filterMenu(cat) {
-      const cards = document.querySelectorAll('.menu-card');
-      const btns = document.querySelectorAll('.filter-btn');
-      btns.forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      cards.forEach(card => {
-        if (cat === 'todos' || card.getAttribute('data-cat') === cat) {
-          card.classList.add('visible');
-        } else {
-          card.classList.remove('visible');
-        }
-      });
+    // ===== MENÚ (CARTA) =====
+    // Para editar el menú, cambia solo esta lista:
+    // [categoría, nombre, precio (o variantes), descripción opcional, foto opcional, favorito]
+    // FOTOS: si no pones foto, la página busca sola img/productos/<nombre-del-producto>.jpg
+    //        Ej: "Caramel macchiato" → img/productos/caramel-macchiato.jpg
+    const CATEGORIAS = { cafe: "Cafés", te: "Tés", bebida: "Bebidas", bocadillo: "Bocadillos", comida: "Comidas" };
+    const MENU = [
+      ["cafe", "Caramel macchiato", 12000, "", "", true],
+      ["cafe", "Mocachino", 10000, "", "img/Mocachino.jpeg"],
+      ["cafe", "Latte", 9000],
+      ["cafe", "Cappuccino", 9000, "", "", true],
+      ["cafe", "Espresso", [["Sencillo", 7000], ["Doble", 8000]]],
+      ["cafe", "Americano", 7000],
+      ["cafe", "Mocca helado", 18000],
+      ["cafe", "Affogato de la casa", 18000],
+      ["cafe", "Caramel macchiato frío", 17000],
+      ["te", "Matcha latte", 18000, "", "", true],
+      ["te", "Té matcha", 16000],
+      ["te", "Té chai", 9000],
+      ["te", "Té inglés (black - green)", 8000],
+      ["bocadillo", "Muffin de choco chips", 5000, "Muffin artesanal esponjoso con chispas de chocolate belga, horneado al momento.", "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600&q=80", true],
+      ["bocadillo", "Croissant de mantequilla", 6500, "Croissant hojaldrado artesanal con mantequilla francesa, crujiente y dorado.", "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80"],
+      ["comida", "Tostada con aguacate", 12000, "Pan artesanal tostado con aguacate fresco, tomate cherry y aceite de oliva.", "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80"],
+      ["comida", "Sándwich club Bokadillos", 16000, "Pan artesanal, pollo a la plancha, lechuga fresca, tomate y mayonesa de la casa.", "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80", true],
+      ["bebida", "Limonada de coco", 9000, "Limonada natural con leche de coco, hielo y menta fresca. Refrescante.", "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80"],
+      ["bebida", "Smoothie de frutas", 9500, "Mezcla de frutas tropicales colombianas licuadas con yogur natural.", "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=600&q=80"]
+    ];
+    const WA_NUM = "573171265692";
+    const fmt = v => "$" + v.toLocaleString("es-CO");
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const CUP = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>';
+    const menuFilters = document.getElementById("menuFilters");
+    const menuGrid = document.getElementById("menuGrid");
+    function phFoto(img) { const d = document.createElement("div"); d.className = "item-thumb item-ph"; d.innerHTML = CUP; img.replaceWith(d); }
+    function itemHTML([cat, nombre, precio, desc = "", foto = "", fav = false], i) {
+      const multi = Array.isArray(precio);
+      const price = multi ? "desde " + fmt(Math.min(...precio.map(p => p[1]))) : fmt(precio);
+      return `<div class="item" style="animation-delay:${i * 0.04}s">
+        <div class="item-thumb-wrap"><img class="item-thumb" src="${foto || "img/productos/" + slug(nombre) + ".jpg"}" alt="${esc(nombre)}" loading="lazy" onerror="phFoto(this)"/></div>
+        <div class="item-body">
+          <div class="item-line"><span class="item-name">${esc(nombre)}</span>${fav ? '<span class="item-fav">Favorito</span>' : ""}<span class="item-dots"></span><span class="item-price">${price}</span></div>
+          ${desc ? `<div class="item-desc">${esc(desc)}</div>` : ""}
+          ${multi ? `<div class="item-variants">${precio.map(([v, p]) => `<span>${esc(v)} · ${fmt(p)}</span>`).join("")}</div>` : ""}
+        </div></div>`;
     }
+    const cats = Object.keys(CATEGORIAS).filter(c => MENU.some(m => m[0] === c));
+    function showCat(cat) {
+      const items = MENU.filter(m => m[0] === cat);
+      const wa = `https://wa.me/${WA_NUM}?text=${encodeURIComponent("Hola Bokadillos ☕ Quiero hacer un pedido de " + CATEGORIAS[cat].toLowerCase() + ":")}`;
+      menuGrid.innerHTML = `<div class="carta-head"><h3>${CATEGORIAS[cat]}</h3><span>${items.length} opciones · precios en COP</span></div>`
+        + `<div class="carta-items">${items.map(itemHTML).join("")}</div>`
+        + `<div class="carta-cta"><p>¿Se te antojó algo? Pídelo o pregúntanos por WhatsApp.</p><a href="${wa}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>`;
+      menuFilters.querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b.dataset.f === cat));
+    }
+    menuFilters.innerHTML = cats.map(c => `<button class="filter-btn" type="button" data-f="${c}">${CATEGORIAS[c]}<span class="n">${MENU.filter(m => m[0] === c).length}</span></button>`).join("");
+    menuFilters.querySelectorAll(".filter-btn").forEach(btn => btn.addEventListener("click", () => {
+      showCat(btn.dataset.f);
+      const top = menuGrid.getBoundingClientRect().top + window.scrollY - 150;
+      if (window.scrollY > top) window.scrollTo({ top, behavior: "smooth" });
+    }));
+    showCat(cats[0]);
 
     // Form submit -> abre WhatsApp con la reserva
     function handleForm(e) {
@@ -2229,7 +2037,7 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.menu-card, .exp-card, .testimonio-card').forEach(el => {
+    document.querySelectorAll('.exp-card, .testimonio-card').forEach(el => {
       el.style.opacity = '0';
       observer.observe(el);
     });
